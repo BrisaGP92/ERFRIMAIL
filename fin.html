@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport"content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuarios!!</title>
+
+<script src="app.js"></script>
+<link rel="stylesheet" type="text/css" href="stylee.css">
+
+    <script>
+        function leer() {
+            var miID = document.getElementById("miID") .value;
+            fetch(`/tecnico/${miID}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                    document.getElementById("miNombre").value = data.NOMBRE;
+                    document.getElementById("miApellido").value = data.APELLIDO;
+///////////
+                    mostrarMensaje("La función 'Leer' se realizó satisfactoriamente.");
+                    } else {
+                        alert("Técnico no encontrado")
+                    }
+                })
+                .catch(error => console.error("Error al obtener los datos del técnico", error));
+                mostrarMensaje("No se pudo realizar la función 'Leer'.");
+        }
+
+        function actualizar() {
+            var miID = document.getElementById("miID").value;
+            var miNombre = document.getElementById("miNombre").value;
+            var miApellido = document.getElementById("miApellido").value;
+///////////
+            fetch(`/tecnico/${miID}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nombre: miNombre,
+                    apellido: miApellido
+                })
+            })
+                .then(response => response.text())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error al actualizar los datos del usuario', error));
+        }
+
+        function borrarCampos() {
+
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+        const loginButton = document.getElementById("loginButton");
+
+        loginButton.addEventListener("click", function () {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        if (username === "RRHH" && password === "contraseña") {
+            document.querySelector(".content").style.display = "block";
+            document.querySelector(".login-form").style.display = "none";
+        } else {
+            mostrarMensaje("Credenciales incorrectas. Inténtalo de nuevo.");
+        }
+
+        });
+     
+        function mostrarMensaje(mensaje) {
+        const mensajeDiv = document.getElementById("mensaje");
+        mensajeDiv.textContent = mensaje;
+        }
+      
+    });
+
+    </script>
+</head>
+
+<body>
+
+<div class="login-form">
+        <div>
+            <label for="username" class="form-label">Usuario:</label>
+            <input type="text" id="username" name="username" class="form-input" required size="20">
+        </div>
+        <div>
+            <label for="password" class="form-label">Contraseña:</label>
+            <input type="password" id="password" name="password" class="form-input" required size="20">
+        </div>
+        <div>
+            <button id="loginButton" class="login-button">Acceder</button>
+        </div>
+</div>
+
+
+<div  class="encabezado">
+    <header>
+        <img src="DS-fondo.avif" alt="Logo" id="logo">
+        <nav id="botonera_principal">
+            <ul>
+                <li><a href="secundaria.html">Taller</a></li>    
+
+                <li><a href="#">Otro..</a></li>   
+            </ul>
+        </nav>
+    </header>
+
+    <p id="nota">Accede a las distintas páginas para una información más especifica.</p>
+
+    <div class="content" style="display: none;">
+
+        <div class="small-box">
+            <label for="otroCampo" class="form-label">Avance General-Taller:</label>
+            <div class="progress-bar">
+                <div class="progress">0%</div>
+            </div>
+        </div>
+
+        <h1 class="content-title">Registro de Usuarios</h1>
+        <div>
+            <label for="miID" class="form-label">ID:</label>
+            <input type="text" id="miID" class="form-input">
+        </div>
+        <div>
+            <label for="miNombre" class="form-label">Nombre:</label>
+            <input type="text" id="miNombre" class="form-input">
+        </div>
+        <div>
+            <label for="miApellido" class="form-label">Apellido:</label>
+            <input type="text" id="miApellido" class="form-input">
+        </div>
+        <div>
+            <label for="miArea" class="form-label">Área:</label>
+            <select id="miArea" name="miArea" class="form-input" onchange="seleccionarArea()">
+            <option value="" disabled selected>Selecciona un área</option>
+            <option value="Taller">Taller</option>
+            <option value="Ventas">Ventas</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Abministración">Abministración</option>
+
+        </select>
+        <div id="listaCursos" class="curso-list" style="display: none;">
+            <h2>Cursos Disponibles:</h2>
+            <ul id="cursos"></ul>
+          </div>
+          
+        </div>
+        <div></div>
+            <button onclick="leer()" class="action-button">Leer</button>
+            <button onclick="actualizar()" class="action-button">Actualizar</button>
+            <button onclick="borrarCampos()" class="action-button">Borrar campos</button>
+        </div>
+        
+    </div>
+
+</div>
+<br>
+<footer>
+    <div id="datos">
+        <p>Telefono: 3731 ...</p>
+        <p>@G-mail: ...@gmail.com</p>
+    </div>
+</footer>
+</body>
+</html>
