@@ -3,6 +3,10 @@ const loginButton = document.getElementById("loginButton") ;
 document.addEventListener("DOMContentLoaded", function () {
     const loginButton = document.getElementById("loginButton");
 
+    function mostrarMensaje(mensaje) {
+      const mensajeDiv = document.getElementById("mensaje");
+      mensajeDiv.textContent = mensaje;
+  }
     loginButton.addEventListener("click", function () {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
@@ -11,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const otroCampo = document.querySelector("otroCampo");
         const nota = document.querySelector("nota");
 
-        if (username === "RRHH" && password === "contraseña") {
+        if (username === "RRHH" && password === "aa476708") {
             document.querySelector(".content").style.display = "block";
             document.querySelector(".login-form").style.display = "none";
             footer.style.display = "block"; 
@@ -23,12 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
             mostrarMensaje("Credenciales incorrectas. Inténtalo de nuevo.");
         }
     });
-
-    function mostrarMensaje(mensaje) {
-        const mensajeDiv = document.getElementById("mensaje");
-        mensajeDiv.textContent = mensaje;
-    }
-
 
 function mostrarAreas() {
   const listaAreas = document.getElementById("listaAreas");
