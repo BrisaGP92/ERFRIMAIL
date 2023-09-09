@@ -12,6 +12,45 @@ const db = new sqlite3.Database('DS.db', (err) => {
     }
 });
 
+///validacion para datos de entrada
+const { body, param } = require('express-validator');
+
+app.get('/tecnico/:id',
+    param('id').isInt().toInt(),
+  
+);
+
+/// validacion de datos del cuerpo de la solicitud
+const { body } = require('express-validator');
+
+app.put('/tecnico/:id',
+    body('nombre').isString().trim(),
+    body('apellido').isString().trim(),
+   
+);
+
+/// Sanitizacion de datos de entrada
+const { sanitizeParam, sanitizeBody } = require('express-validator');
+
+app.get('/tecnico/:id',
+    sanitizeParam('id').toInt(),
+    
+);
+
+app.put('/tecnico/:id',
+    sanitizeParam('id').toInt(),
+    sanitizeBody('nombre').trim(),
+    sanitizeBody('apellido').trim(),
+    
+);
+
+///Utilización de Prepared Statements
+db.run('UPDATE TECNICOS SET NOMBRE = ?, APELLIDO = ? WHERE ID = ?', [nombre, apellido, userId], (err) => {
+    // ...
+});
+
+
+
 // Configurar la carpeta para servir archivos estáticos
 //app.use(express.static('public'));
 app.use(express.static(__dirname));
@@ -45,14 +84,7 @@ app.put('/tecnico/:id', express.json(), (req, res) => {
             res.send('Datos del usuario actualizados');
         }
     });
-    db.get('SELECT * FROM TECNICOS WHERE ID = ?', userId, (err, row) => {
-        if (err) {
-            console.error('Error al obtener los datos del usuario', err);
-            res.status(500).send('Error al obtener los datos del usuario');
-        } else {
-            res.json(row);
-        }
-    });
+    
 });
 
 // Iniciar el servidor
@@ -75,5 +107,5 @@ app.get('/cursos/:area', (req, res) => {
     });
 });
 
-
+db.close()
 
