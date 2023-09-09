@@ -1,5 +1,10 @@
 const loginButton = document.getElementById("loginButton") ;
 
+function mostrarMensaje(mensaje) {
+  const mensajeDiv = document.getElementById("mensaje");
+  mensajeDiv.textContent = mensaje;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const loginButton = document.getElementById("loginButton");
 
@@ -43,10 +48,6 @@ function ocultarAreas() {
   listaAreas.style.display = "none";
 }
 
-function mostrarMensaje(mensaje) {
-    const mensajeDiv = document.getElementById("mensaje");
-    mensajeDiv.textContent = mensaje;
-  }
 
 function borrarUsuario() {
     // Restablecer los campos de nombre, apellido, y otros datos según sea necesario
