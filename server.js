@@ -1,5 +1,7 @@
-const express = require('express');
-const sqlite3 = require('sqlite3') ;
+import express from('express');
+import sqlite3 from('sqlite3') ;
+
+import { body, param, sanitizeParam, sanitizeBody } from 'express-validator';
 
 const app = express();
 const port = 3000;
@@ -13,46 +15,25 @@ const db = new sqlite3.Database('DS.db', (err) => {
 });
 
 ///validacion para datos de entrada
-const { body, param } = require('express-validator');
-
-app.get('/tecnico/:id',
-    param('id').isInt().toInt(),
-  
-);
+app.get('/tecnico/:id', param('id').isInt().toInt());
 
 /// validacion de datos del cuerpo de la solicitud
-const { body } = require('express-validator');
-
-app.put('/tecnico/:id',
-    body('nombre').isString().trim(),
-    body('apellido').isString().trim(),
-   
-);
+app.put('/tecnico/:id', body('nombre').isString().trim(), body('apellido').isString().trim());
 
 /// Sanitizacion de datos de entrada
-const { sanitizeParam, sanitizeBody } = require('express-validator');
+app.get('/tecnico/:id', sanitizeParam('id').toInt());
 
-app.get('/tecnico/:id',
-    sanitizeParam('id').toInt(),
-    
-);
-
-app.put('/tecnico/:id',
-    sanitizeParam('id').toInt(),
-    sanitizeBody('nombre').trim(),
-    sanitizeBody('apellido').trim(),
-    
-);
+// Sanitización de datos del cuerpo de la solicitud
+app.put('/tecnico/:id', sanitizeParam('id').toInt(), sanitizeBody('nombre').trim(), sanitizeBody('apellido').trim());
 
 ///Utilización de Prepared Statements
+// Nota: Los valores como 'nombre', 'apellido' y 'userId' deben definirse antes de usarlos aquí
 db.run('UPDATE TECNICOS SET NOMBRE = ?, APELLIDO = ? WHERE ID = ?', [nombre, apellido, userId], (err) => {
     // ...
 });
 
 
-
 // Configurar la carpeta para servir archivos estáticos
-//app.use(express.static('public'));
 app.use(express.static(__dirname));
 
 app.get('/tecnico/:id', (req, res) => {
@@ -63,13 +44,8 @@ app.get('/tecnico/:id', (req, res) => {
             res.status(500).send('Error al obtener los datos del usuario');
         } else {
             res.json(row);
-        }
-        const tecnico = {
-            NOMBRE: 'Nombre del Técnico',
-            APELLIDO: 'Apellido del Técnico'
-        };
-        res.json(tecnico);
-    });
+        }    
+     });
 });
 
 app.put('/tecnico/:id', express.json(), (req, res) => {
